@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  schedule:
+  - cron: '42 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Get and encrypt Maxmind databases
+        run: bin/update_maxmind.sh
+        env:
+          MMDB_ENCRYPTION_KEY: ${{ secrets.MMDB_ENCRYPTION_KEY }}
+          MAXMIND_LICENSE_KEY: ${{ secrets.MAXMIND_LICENSE_KEY }}
+
+      - name: Set release info
+        run: |
+          echo "RELEASE_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_ENV
+          echo "RELEASE_TAG=$(date -u +%Y%m%d-%H%M%S)" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            build/GeoLite2-ASN.mmdb.enc
+            build/GeoLite2-City.mmdb.enc
+            build/mmdb.iv
+            build/mmdb.md5
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: Release ${{ env.RELEASE_DATE }}
+          body: |
+            Automatically created on ${{ env.RELEASE_DATE }}
+          draft: false
+          prerelease: false

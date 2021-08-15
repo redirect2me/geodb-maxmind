@@ -1,0 +1,11 @@
+build/
+*.crt
+dist/
+.DS_Store
+*.env
+.idea/
+*.key
+*.log
+*.mmdb
+tmp/
+*.tmp
