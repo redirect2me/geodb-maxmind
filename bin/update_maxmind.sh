@@ -24,7 +24,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
     TAR=gtar
 fi
 
-BUILD_DIR="$(realpath "${REPO_DIR}/build")"
+BUILD_DIR="${REPO_DIR}/build"
 if [ ! -d "${BUILD_DIR}" ]; then
     echo "INFO: creating build directory ${BUILD_DIR}"
     mkdir -p "${BUILD_DIR}"
@@ -34,13 +34,13 @@ fi
 
 TMP_ASN_FILE=$(mktemp)
 echo "INFO: download MaxMind ASN database into ${TMP_ASN_FILE}"
-curl --silent "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&suffix=tar.gz&license_key=${MAXMIND_LICENSE_KEY}" >"${TMP_ASN_FILE}"
+curl --silent --location "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-ASN&suffix=tar.gz&license_key=${MAXMIND_LICENSE_KEY}" >"${TMP_ASN_FILE}"
 ${TAR} -xzf ${TMP_ASN_FILE} --directory="${BUILD_DIR}" --wildcards --strip-components 1 "*.mmdb"
 rm "${TMP_ASN_FILE}"
 
 TMP_CITY_FILE=$(mktemp)
 echo "INFO: download MaxMind City database into ${TMP_CITY_FILE}"
-curl --silent "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&suffix=tar.gz&license_key=${MAXMIND_LICENSE_KEY}" >"${TMP_CITY_FILE}"
+curl --silent --location "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&suffix=tar.gz&license_key=${MAXMIND_LICENSE_KEY}" >"${TMP_CITY_FILE}"
 ${TAR} -xzf ${TMP_CITY_FILE} --directory="${BUILD_DIR}" --wildcards --strip-components 1 "*.mmdb"
 rm "${TMP_CITY_FILE}"
 
