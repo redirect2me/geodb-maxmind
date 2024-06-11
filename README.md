@@ -1,5 +1,7 @@
 # MaxMind for Resolve.rs [<img alt="Resolve.rs Logo" src="https://resolve.rs/favicon.svg" height="96" align="right"/>](https://resolve.rs/)
 
+[![Release](https://github.com/redirect2me/geodb-maxmind/actions/workflows/release.yaml/badge.svg)](https://github.com/redirect2me/geodb-maxmind/actions/workflows/release.yaml)
+
 The MaxMind "Lite" databases are free to use, but you cannot redistribute them, and cannot (reliably) download them every time a server starts.  To get a server to start without hitting MaxMind directly, I use an encrypted version that automatically updates once a week.
 
 ## Using
@@ -10,7 +12,7 @@ This is just for [resolve.rs](https://resolve.rs), but you can do the same thing
 * `MAXMIND_ACCOUNT_ID` - also from MaxMind
 * `MMDB_ENCRYPTION_KEY` - generate a 32-byte (64 hex digits) encryption key
 
-You will use the `MMDB_ENCRYPTION_KEY` when decrypting the database files on your server.
+You will use the `MMDB_ENCRYPTION_KEY` when decrypting the database files on your server.  See the [code in resolve.rs](https://github.com/redirect2me/resolvers/blob/main/src/data/maxmindData.ts#L36) for an example of how to do this in TypeScript.
 
 ## License
 
